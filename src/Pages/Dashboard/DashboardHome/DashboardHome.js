@@ -64,8 +64,14 @@ import CarStatsChart from "../../../charts/CarStatsChart";
 import RecommendCarCard from "../../../components/UI/RecommendCarCard";
 
 import recommendCarsData from "../../../assets/dummy-data/recommendCars";
+import useAuth from '../../../../src/hooks/useAuth';
+
 
 const Dashboard = ({dashboardData}) => {
+  const { user, admin, adminLoading } = useAuth();
+  console.log("🚀 ~ file: DashboardHome.js ~ line 72 ~ Dashboard ~ admin", admin)
+  console.log("🚀 ~ file: DashboardHome.js ~ line 72 ~ Dashboard ~ user", user)
+
 
     const carObj = {
         title: "Total Cars",

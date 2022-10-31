@@ -34,6 +34,7 @@ const Navigation = () => {
                                 fontWeight: "bold",
                                 color: "#0275d8"
                             }}>Home</NavLink>
+
                         <NavLink className="text-decoration-none me-lg-3" exact to="/cars/all-cars"
                             style={{ color: '#161c2d' }}
                             activeStyle={{
@@ -52,6 +53,12 @@ const Navigation = () => {
                         }
                     </Nav>
                     <Nav className="ms-auto">
+                    <NavLink className="text-decoration-none me-lg-3" exact to="/dashboard/add-car"
+                                        style={{ color: '#161c2d',    alignSelf: 'center'}}
+                                        activeStyle={{
+                                            fontWeight: "bold",
+                                            color: "#0275d8"
+                                        }}>Become A Seller</NavLink>
                         {
                             user?.email ?
                                 <>
@@ -64,6 +71,7 @@ const Navigation = () => {
                                 </>
                                 :
                                 <div className="d-flex flex-column flex-lg-row mt-2 mt-lg-0">
+
                                     <NavLink className="text-decoration-none me-lg-3" exact to="/sign-in"
                                         style={{ color: '#161c2d' }}
                                         activeStyle={{
@@ -76,6 +84,7 @@ const Navigation = () => {
                                             fontWeight: "bold",
                                             color: "#0275d8"
                                         }}>Join</NavLink>
+
                                 </div>
                         }
 
@@ -84,7 +93,10 @@ const Navigation = () => {
                                 <Offcanvas.Title></Offcanvas.Title>
                             </Offcanvas.Header>
                             <Offcanvas.Body>
+
                                 <div className="text-center">
+
+
                                     {
                                         user?.photoURL ?
                                             <img className=" img-fluid rounded-circle settings-user-img" src={user?.photoURL} alt=""></img>
