@@ -75,7 +75,7 @@ const Join = () => {
                             onBlur={handleOnBlur}
                             name="password"
                             type="password" className="form-control" id="floatingSignUpPassword" placeholder="Password" required />
-                        <label htmlFor="floatingSignUpPassword">Password</label>
+                        <label htmlFor="floatingSignUpPassword">Enter 6 digit Password</label>
                     </div>
                     <div className="form-floating mb-2">
                         <input

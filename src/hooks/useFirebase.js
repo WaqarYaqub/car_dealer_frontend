@@ -18,17 +18,17 @@ const useFirebase = () => {
     const twitterProvider = new TwitterAuthProvider();
 
     const auth = getAuth();
-
+    const isSeller= false;
     const registerUser = (firstName, lastName, email, password, history) => {
         setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const name = firstName + " " + lastName;
-                const newUser = { email, displayName: name };
+                const newUser = { email, displayName: name, isSeller: false };
                 setUser(newUser);
 
                 //Add user to db
-                saveUserToDb(email, name, 'POST');
+                saveUserToDb(email, isSeller, name, 'POST');
 
 
                 // Send name to firebase
