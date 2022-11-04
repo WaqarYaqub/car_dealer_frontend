@@ -8,6 +8,7 @@ import {
     useRouteMatch,
     useHistory
 } from "react-router-dom";
+import { createContext } from 'react';
 import { Button, Offcanvas } from 'react-bootstrap';
 import DashboardHome from '../DashboardHome/DashboardHome';
 import useAuth from '../../../hooks/useAuth';
@@ -29,7 +30,8 @@ const Dashboard = () => {
     const [toggled, setToggled] = useState(true);
     let { path, url } = useRouteMatch();
     const history = useHistory();
-    const { user, logOut, admin } = useAuth();
+    const { user, logOut, admin,isSeller } = useAuth();
+    console.log("🚀 ~ file: Dashboard.js ~ line 33 ~ Dashboard ~ isSeller", isSeller)
     const [offCanvasShow, setOffCanvasShow] = useState(false);
     const handleOffCanvasClose = () => setOffCanvasShow(false);
     const handleOffCanvasShow = () => setOffCanvasShow(true);
@@ -124,6 +126,11 @@ const Dashboard = () => {
                                                     <FontAwesomeIcon icon={faPlus} /> Add New Car
                                                 </Button>
                                             </Link>
+                                            <Link to={`${url}/manage-cars`}>
+                                                <Button className="btn app-main-btn col-10 mb-3" >
+                                                    <FontAwesomeIcon icon={faCar} /> Manage Cars
+                                                </Button>
+                                            </Link>
                                         </>
                                 }
                                 <button onClick={() => {
@@ -171,6 +178,9 @@ const Dashboard = () => {
                                     </Route>
                                     <Route path={`${path}/add-car`}>
                                         <AddCar></AddCar>
+                                    </Route>
+                                    <Route path={`${path}/manage-cars`}>
+                                        <ManageCars></ManageCars>
                                     </Route>
                                     <AdminRoute path={`${path}/make-admin`}>
                                         <MakeAdmin></MakeAdmin>
