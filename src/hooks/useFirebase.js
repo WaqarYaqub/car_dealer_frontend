@@ -75,7 +75,7 @@ const useFirebase = () => {
                             setAdmin(true);
                         }
                         else
-                                setIsLoading(false);
+                      setIsLoading(false);
                         
                     })
             } else {
