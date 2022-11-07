@@ -4,12 +4,18 @@ import swal from 'sweetalert';
 import { Form } from 'react-bootstrap';
 import { useState } from 'react';
 import {BASE_URL} from '../../../Utiles/constants';
+import useAuth from '../../../../src/hooks/useAuth';
+
 
 const AddCar = () => {
+    const { user, admin, adminLoading } = useAuth();
+    console.log("🚀 ~ file: AddCar.js ~ line 12 ~ AddCar ~ user", user.email)
+    console.log("🚀 ~ file: AddCar.js ~ line 12 ~ AddCar ~ admin", admin)
     const [isLoading, setIsLoading] = useState(false);
     const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
     const [thumbnail, setThumbnail] = useState(null);
     const [cover, setCover] = useState(null);
+    
 
     const onSubmit = data => {
         setIsLoading(true);
@@ -38,6 +44,8 @@ const AddCar = () => {
         formData.append('condition', data.condition);
         formData.append('available', data.available);
         console.log(formData);
+
+        if(admin === true){   
         fetch(`${BASE_URL}add-car`, {
             method: 'POST',
             body: formData
@@ -50,6 +58,24 @@ const AddCar = () => {
                     reset();
                 }
             })
+        }else{
+            console.log("====0k=====")
+            // {{...formData,isCreatedBySeller: 'true',email:user.email}},
+            fetch(`${BASE_URL}sellCar`, {
+            method: 'POST',
+            body: {...formData,isCreatedBySeller: 'true',email:user.email}
+        })
+            .then(res => res.json())
+            .then(result => {
+                if (result.insertedId) {
+                    setIsLoading(false);
+                    swal("New Car Added!", "You can now find this car on cars page", "success");
+                    reset();
+                }
+            })
+            
+        }
+
     }
 
 

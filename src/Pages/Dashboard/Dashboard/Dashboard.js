@@ -119,6 +119,11 @@ const Dashboard = () => {
                                             <Link to={`${url}/add-review`}>
                                                 <Button className="btn app-main-btn col-10 mb-3" ><FontAwesomeIcon icon={faPen} /> Add Review</Button>
                                             </Link>
+                                            <Link to={`${url}/add-car`}>
+                                                <Button className="btn app-main-btn col-10 mb-3" >
+                                                    <FontAwesomeIcon icon={faPlus} /> Add New Car
+                                                </Button>
+                                            </Link>
                                         </>
                                 }
                                 <button onClick={() => {
@@ -163,6 +168,9 @@ const Dashboard = () => {
                                     </Route>
                                     <Route path={`${path}/add-review`}>
                                         <AddReview></AddReview>
+                                    </Route>
+                                    <Route path={`${path}/add-car`}>
+                                        <AddCar></AddCar>
                                     </Route>
                                     <AdminRoute path={`${path}/make-admin`}>
                                         <MakeAdmin></MakeAdmin>
