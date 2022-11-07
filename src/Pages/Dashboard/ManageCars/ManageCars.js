@@ -5,15 +5,34 @@ import { Container, Row } from 'react-bootstrap';
 import swal from 'sweetalert';
 import Car from '../../Shared/Car/Car';
 import {BASE_URL} from '../../../Utiles/constants';
+import useAuth from '../../../../src/hooks/useAuth';
 
 const ManageCars = () => {
+
+    const { user, admin, adminLoading,isSeller  } = useAuth();
+    console.log("🚀 ~ file: ManageCars.js ~ line 13 ~ ManageCars ~ user", user)
     const [cars, setCars] = useState([]);
 
     useEffect(() => {
+            if(isSeller === true){
+                fetch(`${BASE_URL}seller-cars?email=${user.email}`)
+                .then(res => res.json())
+                .then(cars => setCars(cars))
+                console.log("====good====")
+                console.log("🚀 ~ file: ManageCars.js ~ line 21 ~ useEffect ~ cars", cars)
+                
+            }
+            else{
+                if(admin === true){
         fetch(`${BASE_URL}cars`)
             .then(res => res.json())
             .then(cars => setCars(cars))
-    }, [])
+            console.log("====bad====")
+            }
+        }
+    }
+    , [])
+
 
     const handleDeleteCar = id => {
         swal({
@@ -44,7 +63,7 @@ const ManageCars = () => {
             });
     }
 
-
+console.log("dddddddd")
     return (
         <div>
             {

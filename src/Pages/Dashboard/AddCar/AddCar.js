@@ -8,14 +8,15 @@ import useAuth from '../../../../src/hooks/useAuth';
 
 
 const AddCar = () => {
-    const { user, admin, adminLoading } = useAuth();
+    const { user, admin, isSeller,adminLoading } = useAuth();
     console.log("🚀 ~ file: AddCar.js ~ line 12 ~ AddCar ~ user", user.email)
     console.log("🚀 ~ file: AddCar.js ~ line 12 ~ AddCar ~ admin", admin)
     const [isLoading, setIsLoading] = useState(false);
     const { control, register, handleSubmit, reset, formState: { errors } } = useForm();
     const [thumbnail, setThumbnail] = useState(null);
     const [cover, setCover] = useState(null);
-    
+    console.log("🚀 ~ file: AddCar.js ~ line 49 ~ onSubmit ~ isSeller", isSeller)
+
 
     const onSubmit = data => {
         setIsLoading(true);
@@ -59,11 +60,14 @@ const AddCar = () => {
                 }
             })
         }else{
+            if(isSeller === true){
             console.log("====0k=====")
             // {{...formData,isCreatedBySeller: 'true',email:user.email}},
-            fetch(`${BASE_URL}sellCar`, {
+            formData.append('isCreatedBySeller', true);
+            formData.append('sellerEmail', user.email);
+            fetch(`${BASE_URL}seller-cars`, {
             method: 'POST',
-            body: {...formData,isCreatedBySeller: 'true',email:user.email}
+            body: formData
         })
             .then(res => res.json())
             .then(result => {
@@ -75,7 +79,7 @@ const AddCar = () => {
             })
             
         }
-
+    }
     }
 
 

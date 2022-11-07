@@ -9,13 +9,16 @@ import {BASE_URL} from '../../../../Utiles/constants';
 
 const MyOrders = () => {
     const [dataLoading, setDataLoading] = useState(false);
-    const { user } = useAuth();
+    const { user ,isSeller,admin} = useAuth();
     const [myOrders, setMyOrders] = useState([]);
     const history = useHistory();
 
     useEffect(() => {
+
         setDataLoading(true);
+        if(admin === true){
         fetch(`${BASE_URL}my-orders?email=${user.email}`, {
+
             headers: {
                 'authorization': `Bearer ${localStorage.getItem('carIdToken')}`
             }
@@ -33,6 +36,29 @@ const MyOrders = () => {
                 setMyOrders(result);
                 setDataLoading(false);
             })
+        }else
+        if(isSeller ===true){
+            console.log("==aaa===")
+            fetch(`${BASE_URL}seller-orders?email=${user.email}`, {
+
+                headers: {
+                    'authorization': `Bearer ${localStorage.getItem('carIdToken')}`
+                }
+            })
+                .then(res => {
+                    if (res.status === 200) {
+                        return res.json();
+                    }
+                    else if (res.status === 401) {
+                        swal("Unauthorized User!", "Please Login and Try Again Later", "warning");
+                        history.push('/sign-in');
+                    }
+                })
+                .then(result => {
+                    setMyOrders(result);
+                    setDataLoading(false);
+                })
+        }
 
     }, [user.email, history])
 

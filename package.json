@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^12.8.3",
     "bootstrap": "^5.2.0-beta1",
     "bootstrap-icons": "^1.7.0",
+    "bootstrap-sweetalert": "^1.0.1",
     "dotenv": "^16.0.3",
     "firebase": "^9.4.0",
     "react": "^17.0.2",

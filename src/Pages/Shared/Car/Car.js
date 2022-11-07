@@ -10,13 +10,16 @@ import swal from 'sweetalert';
 
 const Car = ({ car, handleDeleteCar }) => {
     const { _id, modelName, bodyType, img, price, condition, available } = car;
-    const { admin } = useAuth();
+    console.log("🚀 ~ file: Car.js ~ line 13 ~ Car ~ img", img)
+    console.log("🚀 ~ file: Car.js ~ line 13 ~ Car ~ car===============", car)
+    const { admin, isSeller } = useAuth();
     const location = useLocation();
     console.log((img));
     return (
         <Col>
             <Card className="h-100 car">
-                <Card.Img variant="top" src={img.startsWith('/') ? `data:image/*;base64,${img}` : img} />
+                <Card.Img variant="top" src={img?.startsWith('/') ? `data:image/*;base64,${img}` : img} />
+                
                 <Card.Body className="text-dark">
                     <Card.Title>{modelName} ({bodyType})</Card.Title>
                     <Card.Text>
@@ -29,7 +32,8 @@ const Car = ({ car, handleDeleteCar }) => {
                 </Card.Body>
                 <Card.Footer className="text-dark">
                     {
-                        (admin && location?.pathname === "/dashboard/manage-cars")
+                        (admin || isSeller 
+                              && location?.pathname === "/dashboard/manage-cars")
                             ?
                             <>
                                 <Button onClick={() => {

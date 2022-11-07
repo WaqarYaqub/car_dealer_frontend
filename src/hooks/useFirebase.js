@@ -3,32 +3,42 @@ import { getAuth, createUserWithEmailAndPassword, updateProfile, GoogleAuthProvi
 import { useState } from "react";
 import { useEffect } from "react";
 import swal from 'sweetalert';
-import {BASE_URL} from '../Utiles/constants';
+import { BASE_URL } from '../Utiles/constants';
+import { createContext } from 'react';
+
+
+
 
 initializeAuthentication();
+
 
 
 const useFirebase = () => {
     const [user, setUser] = useState({})
     const [admin, setAdmin] = useState(false);
+    const [isSeller, setIsSeller] = useState(false);
+    console.log("🚀 ~ file: useFirebase.js ~ line 21 ~ useFirebase ~ isSeller", isSeller)
+
     const [isLoading, setIsLoading] = useState(true);
     const [adminLoading, setAdminLoading] = useState(false);
+
+
+
     const googleProvider = new GoogleAuthProvider();
     const facebookProvider = new FacebookAuthProvider();
     const twitterProvider = new TwitterAuthProvider();
 
     const auth = getAuth();
-
     const registerUser = (firstName, lastName, email, password, history) => {
         setIsLoading(true);
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const name = firstName + " " + lastName;
-                const newUser = { email, displayName: name };
+                const newUser = { email, displayName: name, isSeller:false };
                 setUser(newUser);
 
                 //Add user to db
-                saveUserToDb(email, name, 'POST');
+                saveUserToDb(email, isSeller, name, 'POST');
 
 
                 // Send name to firebase
@@ -64,7 +74,9 @@ const useFirebase = () => {
                         if (data.admin) {
                             setAdmin(true);
                         }
-                        setIsLoading(false);
+                        else
+                      setIsLoading(false);
+                        
                     })
             } else {
                 setAdmin(false);
@@ -74,6 +86,7 @@ const useFirebase = () => {
 
         });
     }, [auth, user.email])
+    console.log("user isSeller:",user.isSeller)
 
 
 
@@ -162,6 +175,27 @@ const useFirebase = () => {
             .finally(() => setIsLoading(false));
     }
 
+const handleonclick=()=>{
+    setIsSeller(true)
+
+}
+    const becomeASeller=()=>{
+        localStorage.setItem('isSeller',true)
+
+        handleonclick()
+    fetch(`${BASE_URL}becomeSeller/${user.email}`, {
+        method: "put",
+        headers: {
+            'content-type': 'application/json'
+        },
+        body: JSON.stringify({isSeller: true})
+
+    }).then()
+    
+
+    
+
+}
 
     //Function to add users to database MONGO DB
     const saveUserToDb = (email, displayName, method) => {
@@ -180,6 +214,8 @@ const useFirebase = () => {
 
     return {
         user,
+        becomeASeller,
+        isSeller,
         admin,
         isLoading,
         adminLoading,
